@@ -452,10 +452,14 @@ function run () {
   const envImportCommand = cliparse.command('import', {
     description: 'Load environment variables from STDIN',
   }, env('importEnv'));
+  const envExportCommand = cliparse.command('export', {
+    description: 'Add or update an environment variable named <variable-name> taking its value from the current environment',
+    args: [args.envVariableName],
+  }, env('exportEnv'));
   const envCommands = cliparse.command('env', {
     description: 'Manage Clever Cloud application environment',
     options: [opts.alias, opts.sourceableEnvVarsList],
-    commands: [envSetCommand, envRemoveCommand, envImportCommand],
+    commands: [envSetCommand, envRemoveCommand, envImportCommand, envExportCommand],
   }, env('list'));
 
   // LINK COMMAND

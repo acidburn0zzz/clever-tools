@@ -77,4 +77,15 @@ function importEnv (api, params) {
   handleCommandStream(s_result);
 };
 
-module.exports = { list, set, rm, importEnv };
+function exportEnv (api, params) {
+  const [varName] = params.args;
+  const { alias } = params.options;
+
+  const s_env = AppConfig.getAppData(alias)
+    .flatMapLatest(({ app_id, org_id }) => Env.set(api, varName, process.env[varName] || '', app_id, org_id))
+    .flatMapLatest(() => Logger.println('Your environment variable has been successfully saved'));
+
+  handleCommandStream(s_env);
+};
+
+module.exports = { list, set, rm, importEnv, exportEnv };
