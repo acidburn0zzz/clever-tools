@@ -117,7 +117,7 @@ function run () {
     webhookUrl: cliparse.argument('url', { description: 'Webhook URL' }),
     envVariableName: cliparse.argument('variable-name', { description: 'Name of the environment variable' }),
     envVariableNames: cliparse.argument('variable-names', {
-      description: 'Command separated list of names of the environment variables',
+      description: 'Comma separated list of names of the environment variables',
       parser: Parsers.commaSeparatedValues,
     }),
     envVariableValue: cliparse.argument('variable-value', { description: 'Value of the environment variable' }),
@@ -456,14 +456,14 @@ function run () {
   const envImportCommand = cliparse.command('import', {
     description: 'Load environment variables from STDIN',
   }, env('importEnv'));
-  const envExportCommand = cliparse.command('export', {
-    description: 'Add or update an environment variable named <variable-name> taking its value from the current environment',
+  const envImportVarsCommand = cliparse.command('import-vars', {
+    description: 'Add or update environment variables named <variable-names> (comma separated), taking their values from the current environment',
     args: [args.envVariableNames],
-  }, env('exportEnv'));
+  }, env('importEnvVars'));
   const envCommands = cliparse.command('env', {
     description: 'Manage Clever Cloud application environment',
     options: [opts.alias, opts.sourceableEnvVarsList],
-    commands: [envSetCommand, envRemoveCommand, envImportCommand, envExportCommand],
+    commands: [envSetCommand, envRemoveCommand, envImportCommand, envImportVarsCommand],
   }, env('list'));
 
   // LINK COMMAND

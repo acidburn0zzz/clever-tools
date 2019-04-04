@@ -77,7 +77,7 @@ function importEnv (api, params) {
   handleCommandStream(s_result);
 };
 
-function exportEnv (api, params) {
+function importEnvVars (api, params) {
   const [varNames] = params.args;
   const { alias }  = params.options;
 
@@ -94,4 +94,4 @@ function exportEnv (api, params) {
   handleCommandStream(s_env);
 };
 
-module.exports = { list, set, rm, importEnv, exportEnv };
+module.exports = { list, set, rm, importEnv, importEnvVars };
