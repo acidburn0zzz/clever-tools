@@ -79,7 +79,7 @@ function importEnv (api, params) {
 
 function importEnvVars (api, params) {
   const [varNames] = params.args;
-  const { alias }  = params.options;
+  const { alias } = params.options;
 
   const s_env = AppConfig.getAppData(alias)
     .flatMap(({ app_id, org_id }) => {
@@ -87,9 +87,9 @@ function importEnvVars (api, params) {
         return { app_id, org_id, varName };
       }));
     })
-    .flatMap(({app_id, org_id, varName}) => Env.set(api, varName, process.env[varName] || '', app_id, org_id))
+    .flatMap(({ app_id, org_id, varName }) => Env.set(api, varName, process.env[varName] || '', app_id, org_id))
     .last()
-    .flatMapLatest(() => Logger.println('Your environment variables have been successfully saved'))
+    .flatMapLatest(() => Logger.println('Your environment variables have been successfully saved'));
 
   handleCommandStream(s_env);
 };
