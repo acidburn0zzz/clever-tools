@@ -78,12 +78,18 @@ function importEnv (api, params) {
 };
 
 function exportEnv (api, params) {
-  const [varName] = params.args;
-  const { alias } = params.options;
+  const [varNames] = params.args;
+  const { alias }  = params.options;
 
   const s_env = AppConfig.getAppData(alias)
-    .flatMapLatest(({ app_id, org_id }) => Env.set(api, varName, process.env[varName] || '', app_id, org_id))
-    .flatMapLatest(() => Logger.println('Your environment variable has been successfully saved'));
+    .flatMap(({ app_id, org_id }) => {
+      return Bacon.fromArray(varNames.map((varName) => {
+        return { app_id, org_id, varName };
+      }));
+    })
+    .flatMap(({app_id, org_id, varName}) => Env.set(api, varName, process.env[varName] || '', app_id, org_id))
+    .last()
+    .flatMapLatest(() => Logger.println('Your environment variables have been successfully saved'))
 
   handleCommandStream(s_env);
 };
